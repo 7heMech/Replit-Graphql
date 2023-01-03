@@ -8,3 +8,4 @@ const query = "",
 
 graphql(query, variables).then(console.log);
 ```
+If you want to use your sid, making a secret called `SID` should work.

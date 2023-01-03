@@ -11,7 +11,8 @@ const graphql = async (query, variables) => {
 			"X-Requested-With": "replit",
 			"Origin": "https://replit.com",
 			"Content-Type": "application/json",
-			"Referrer-Policy": "strict-origin-when-cross-origin"
+			"Referrer-Policy": "strict-origin-when-cross-origin".
+			"Cookie": "connect.sid=" + process.env.SID
 		},
 		"body": JSON.stringify({ query, variables }),
 		"method": "POST"
