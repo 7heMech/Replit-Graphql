@@ -26,7 +26,7 @@ const graphql = async (query, variables) => {
 			"Referrer": "https://replit.com",
 			"Content-Type": "application/json",
 			"X-Requested-With": "XMLHttpRequest",
-			"Cookie": "connect.sid=" + CONNECT_SID,
+			"Cookie": "connect.sid=" + CONNECT_SID
 		},
 		"body": JSON.stringify({ query, variables })
 	});
