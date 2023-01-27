@@ -7,7 +7,7 @@ const httpsAgent = new https.Agent({ keepAlive: true });
 const agent = (_parsedURL) => _parsedURL.protocol == 'http:' ? httpAgent : httpsAgent;
 
 const { SID: CONNECT_SID = "" } = process.env;
-const request = fetch || require("./fetch.cjs");
+const request = typeof fetch === 'undefined' ? require("./fetch.cjs") : fetch;
 
 /**
  * @param {String} query The graphql query
