@@ -10,9 +10,11 @@ const { SID: CONNECT_SID = "" } = process.env;
 const request = typeof fetch === 'undefined' ? require("./fetch.cjs") : fetch;
 
 /**
- * @param {String} query The graphql query
- * @param {(Object|String)} variables The variables used in the query
- * @returns {Promise<Object>} Query response
+ * @function graphql
+ * @async
+ * @param {string} query The GraphQL query to send to the server.
+ * @param {(Object|String)} variables The variables to include in the query.
+ * @returns {Promise<Object|Array>} - The response data or errors from the server.
  */
 const graphql = async (query, variables) => {
 		const response = await request(`https://replit.com/graphql?e=${Math.round(Math.random() * 100)}`, {
