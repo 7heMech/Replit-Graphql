@@ -10,14 +10,9 @@ const { SID: CONNECT_SID = "" } = process.env;
 
 let req;
 
-const originalEmit = process.emit; 
-if (typeof fetch !== 'undefined') {
-	process.emit = function (name, data, ...args) { 
-  	if (name === "warning" && typeof data === "object" && data.name === "ExperimentalWarning" && data.message.includes("Fetch API")) return false; 
-  	return originalEmit.apply(process, arguments);
-	};
-	req = fetch;
-} else req = require("./fetch.cjs");
+// Ignore experimental fetch warning
+if("undefined"!=typeof fetch){let e=process.emit;process.emit=function(n,t,...i){return!("warning"===n&&"object"==typeof t&&"ExperimentalWarning"===t.name&&t.message.includes("Fetch API"))&&e.apply(process,arguments)},req=fetch}else req=require("./fetch.cjs");
+
 
 /**
  * @function graphql
