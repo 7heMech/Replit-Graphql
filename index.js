@@ -7,7 +7,17 @@ const httpsAgent = new https.Agent({ keepAlive: true });
 const agent = (_parsedURL) => _parsedURL.protocol == 'http:' ? httpAgent : httpsAgent;
 
 const { SID: CONNECT_SID = "" } = process.env;
-const req = typeof fetch === 'undefined' ? require("./fetch.cjs") : fetch;
+
+let req;
+
+const originalEmit = process.emit; 
+if (typeof fetch !== 'undefined') {
+	process.emit = function (name, data, ...args) { 
+  	if (name === "warning" && typeof data === "object" && data.name === "ExperimentalWarning" && data.message.includes("Fetch API")) return false; 
+  	return originalEmit.apply(process, arguments);
+	};
+	req = fetch;
+} else req = require("./fetch.cjs");
 
 /**
  * @function graphql
