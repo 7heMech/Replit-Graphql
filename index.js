@@ -9,7 +9,6 @@ const agent = (_parsedURL) => _parsedURL.protocol == 'http:' ? httpAgent : https
 const { SID: CONNECT_SID = "" } = process.env;
 
 let req;
-
 // Ignore experimental fetch warning
 if("undefined"!=typeof fetch){let e=process.emit;process.emit=function(n,t,...i){return!("warning"===n&&"object"==typeof t&&"ExperimentalWarning"===t.name&&t.message.includes("Fetch API"))&&e.apply(process,arguments)},req=fetch}else req=require("./fetch.cjs");
 
@@ -19,7 +18,7 @@ if("undefined"!=typeof fetch){let e=process.emit;process.emit=function(n,t,...i)
  * @async
  * @param {String} query The GraphQL query to send to the server.
  * @param {(Object|String)} variables The variables to include in the query.
- * @returns {Promise<Object|Array>} - The response data or errors from the server.
+ * @returns {Promise<Object>} - The response from the server.
  */
 const graphql = async (query, variables) => {
 		const res = await req(`https://replit.com/graphql?e=${Math.round(Math.random()*100)}`, {
@@ -37,8 +36,7 @@ const graphql = async (query, variables) => {
 		},
 		"body": JSON.stringify({ query, variables })
 	});
-	const json = await res.json();
-	return json?.data || json?.errors;
+	return await res.json();
 }
 
 module.exports = graphql;
