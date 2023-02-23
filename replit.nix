@@ -1,5 +1,6 @@
 { pkgs }: {
     deps = [
-        pkgs.nodejs
+      pkgs.nodejs
+				pkgs.nodePackages.typescript-language-server
     ];
 }
