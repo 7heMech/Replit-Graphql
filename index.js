@@ -125,4 +125,4 @@ const subscribe = (query, variables) => {
  */
 const setSid = (sid) => SID = sid;
 
-module.exports = { query, mutate, subscribe };
+module.exports = { query, mutate, subscribe, setSid };
