@@ -3,7 +3,7 @@ const { EventEmitter } = require('events');
 const https = require('https');
 const WebSocket = require('ws');
 
-const { SID: CONNECT_SID = '' } = process.env;
+let { SID = '' } = process.env;
 
 const agent = new https.Agent({ keepAlive: true });
 
@@ -17,7 +17,7 @@ const headers = {
 	referrer: 'https://replit.com',
 	'content-type': 'application/json',
 	'x-requested-with': 'XMLHttpRequest',
-	cookie: 'connect.sid=' + CONNECT_SID,
+	cookie: `connect.sid=${SID}`,
 };
 
 const graphql = async (query, variables) => {
@@ -115,5 +115,14 @@ const subscribe = (query, variables) => {
 
 	return subscription;
 }
+
+/**
+ * This function edits the SID used for queries  
+ * @function setSid
+ * @async
+ * @param {String} sid The SID used for queries.
+ * @returns {undefined}
+ */
+const setSid = (sid) => SID = sid;
 
 module.exports = { query, mutate, subscribe };

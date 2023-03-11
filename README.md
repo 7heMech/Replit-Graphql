@@ -16,7 +16,7 @@ const variables = {};
 
 replit.query(query, variables).then(console.log);
 ```
-If you want to use your sid, making a secret called `SID` will work.
+If you want to use your sid, making a secret called `SID` or using the `setSid` method will work.
 ## API
 Replit GraphQL exports an object with the following functions:
 
@@ -33,5 +33,10 @@ Performs a GraphQL mutation with the given `query` and `variables`. Returns a Pr
 Performs a GraphQL subscription with the given query and variables. It returns an `EventEmitter` object that can be used to handle the data sent by the server. The returned `EventEmitter` also has an `unsubscribe` method that can be called to stop the subscription.
  
 **Note:** The `subscribe` function returns an `EventEmitter` object. You should attach an event listener to the `data` event of the emitter to handle the data sent by the server.
+
+> `setSid(sid: String) => undefined`
+
+Sets the sid used for queries
+
 ## Contributing
 Contributions are welcome! If you find a bug or want to add a new feature, please open an issue or submit a pull request on the [GitHub repository](https://github.com/7hemech/replit-graphql).
