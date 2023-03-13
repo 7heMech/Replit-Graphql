@@ -30,8 +30,7 @@ const graphql = async (query, variables) => {
 
 const check = (str, type) => {
 	const trimmed = str.trim();
-	if (!trimmed.startsWith(type)) return `${type} ${trimmed}`;
-	return st;
+	return !trimmed.startsWith(type) ? `${type} ${trimmed}` : str;
 }
 
 /**
