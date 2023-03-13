@@ -1,6 +1,6 @@
 {
 	"name": "replit-graphql",
-  "version": "2.0.7",
+  "version": "2.0.8",
 	"description": "An easy way to use the replit's graphql API.",
 	"repository": "7hemech/replit-graphql",
 	"author": "7hemech",

@@ -92,13 +92,13 @@ const subscribe = (subscription, variables) => {
 		});
 	}
 
-	const subscription = new EventEmitter();
-	emitters.push(subscription);
+	const sub = new EventEmitter();
+	emitters.push(sub);
 	const id = counter++;
 
-	subscription.unsubscribe = () => {
+	sub.unsubscribe = () => {
 		ws.send(`{"id":"${id}","type":"stop"}`);
-		subscription.emit('end');
+		sub.emit('end');
 		emitters[id] = null;
 	}
 
@@ -116,7 +116,7 @@ const subscribe = (subscription, variables) => {
 	else
 		ws.send(msg);
 
-	return subscription;
+	return sub;
 }
 
 /**
