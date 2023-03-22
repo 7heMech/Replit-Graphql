@@ -10,13 +10,12 @@ npm install replit-graphql
 ```js
 const replit = require('replit-graphql');
 
-const query = '{userByUsername(username: "7heMech") {id}}';
+const query = 'query {userByUsername(username: "7heMech") {id}}';
 
 const variables = {};
 
 replit.query(query, variables).then(console.log);
 ```
-If you want to use your sid, making a secret called `SID` or using the `setSid` method will work.
 ## API
 Replit GraphQL exports an object with the following functions:
 
@@ -24,15 +23,9 @@ Replit GraphQL exports an object with the following functions:
 
 Performs a GraphQL query with the given `query` and `variables`. Returns a Promise that resolves to the query result.
 
-> `mutate(query: String, variables: object|string) => Promise<object>`
-
-Performs a GraphQL mutation with the given `query` and `variables`. Returns a Promise that resolves to the mutation result.
-
 > `subscribe(query: String, variables: object|string) => EventEmitter`
 
-Performs a GraphQL subscription with the given query and variables. It returns an `EventEmitter` object that can be used to handle the data sent by the server. The returned `EventEmitter` also has an `unsubscribe` method that can be called to stop the subscription.
- 
-**Note:** The `subscribe` function returns an `EventEmitter` object. You should attach an event listener to the `data` event of the emitter to handle the data sent by the server.
+Performs a GraphQL subscription with the given query and variables. It returns an `EventEmitter` object. The returned object also has an `unsubscribe` method.
 
 > `setSid(sid: String) => undefined`
 

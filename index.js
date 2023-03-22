@@ -1,37 +1,14 @@
 const { EventEmitter } = require('events');
-
-const https = require('https');
 const WebSocket = require('ws');
 
-const agent = new https.Agent({ keepAlive: true });
-
-const req = typeof fetch === 'undefined' ? require('./fetch.cjs') : fetch;
+const req = require('./req');
 
 const headers = {
-	host: 'replit.com',
-	'user-agent': 'replit',
-	accept: 'application/json',
-	origin: 'https://replit.com',
 	referrer: 'https://replit.com',
 	'content-type': 'application/json',
 	'x-requested-with': 'XMLHttpRequest',
 	cookie: `connect.sid=${process.env.SID}`,
 };
-
-const graphql = async (query, variables) => {
-	const res = await req(`https://replit.com/graphql?e=${Math.round(Math.random() * 100)}`, {
-		agent,
-		headers,
-		method: 'POST',
-		body: JSON.stringify({ query, variables }),
-	});
-	return await res.json();
-}
-
-const check = (str, type) => {
-	const trimmed = str.trim();
-	return !trimmed.startsWith(type) ? `${type} ${trimmed}` : str;
-}
 
 /**
  * This function performs a GraphQL query with the given query and variables.  
@@ -41,24 +18,19 @@ const check = (str, type) => {
  * @param {(Object|String)} variables The variables to include in the query.
  * @returns {Promise<Object>} - The response from the server.
  */
-const query = async (query, variables) => await graphql(check(query, 'query'), variables);
-
-/**
- * This function performs a GraphQL mutation with the given query and variables.  
- * @function mutate
- * @async
- * @param {String} mutation The GraphQL mutation to send to the server.
- * @param {(Object|String)} variables The variables to include in the mutation.
- * @returns {Promise<Object>} - The response from the server.
- */
-const mutate = async (mutation, variables) => await graphql(check(mutation, 'mutation'), variables);
-
+const query = async (query, variables) => {
+	const res = await req(`https://replit.com/graphql?e=${Math.round(Math.random() * 100)}`, {
+		headers,
+		method: 'POST',
+		body: JSON.stringify({ query, variables }),
+	});
+	return await res.json();
+}
 
 const emitters = [];
-const msgs = [];
-
-let counter = 0;
-let ws;
+let counter = 0,
+	msgs = [],
+	ws;
 
 /**
  * This function performs a GraphQL subscription with the given subscription and variables.  
@@ -66,7 +38,9 @@ let ws;
  * @async
  * @param {String} subscription The GraphQL subscription to send to the server.
  * @param {(Object|String)} variables The variables to include in the subscription.
- * @returns {EventEmitter} - The response from the server.
+ * @returns {EventEmitter}
+ * @emits {data} Emitted when the server sends data in response to the subscription.
+ * @emits {end} Emitted when the subscription is unsubscribed from or otherwise completed.
  */
 const subscribe = (subscription, variables) => {
 	if (!ws) {
@@ -78,7 +52,9 @@ const subscribe = (subscription, variables) => {
 
 		ws.on('open', () => {
 			ws.send('{"type":"connection_init","payload":{}}');
-			msgs.forEach((msg) => ws.send(msg));
+			for (let i = 0; i < msgs.length; i++)
+				ws.send(msgs[i]);
+			msgs = null;
 		});
 
 		ws.on('message', (data) => {
@@ -106,7 +82,7 @@ const subscribe = (subscription, variables) => {
 		id,
 		payload: {
 			variables,
-			query: check(subscription, 'subscription'),
+			query: subscription,
 		}
 	});
 
@@ -119,12 +95,11 @@ const subscribe = (subscription, variables) => {
 }
 
 /**
- * This function edits the SID used for queries  
+ * This function edits the SID used for graphql.
  * @function setSid
- * @async
- * @param {String} sid The SID used for queries.
+ * @param {String} sid The SID used for graphql.
  * @returns {undefined}
  */
 const setSid = (sid) => headers.cookie = `connect.sid=${sid}`;
 
-module.exports = { query, mutate, subscribe, setSid };
+module.exports = { query, subscribe, setSid };
