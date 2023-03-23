@@ -14,20 +14,25 @@ const query = 'query {userByUsername(username: "7heMech") {id}}';
 
 const variables = {};
 
-replit.query(query, variables).then(console.log);
+replit.query(query, { variables }).then(console.log);
 ```
 ## API
 Replit GraphQL exports an object with the following functions:
 
-> `query(query: String, variables: object|string) => Promise<object>`
+> `query(query: string, config?: {
+		variables?: object|string,
+		raw?: boolean
+	}) => Promise<object>`
 
 Performs a GraphQL query with the given `query` and `variables`. Returns a Promise that resolves to the query result.
 
-> `subscribe(query: String, variables: object|string) => EventEmitter`
+> `subscribe(query: string, config?: {
+		variables?: object|string
+	}) => EventEmitter`
 
 Performs a GraphQL subscription with the given query and variables. It returns an `EventEmitter` object. The returned object also has an `unsubscribe` method.
 
-> `setSid(sid: String) => undefined`
+> `setSid(sid: string) => undefined`
 
 Sets the sid used for queries
 

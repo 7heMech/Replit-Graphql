@@ -14,17 +14,20 @@ const headers = {
  * This function performs a GraphQL query with the given query and variables.  
  * @function query
  * @async
- * @param {String} query The GraphQL query to send to the server.
- * @param {(Object|String)} variables The variables to include in the query.
- * @returns {Promise<Object>} - The response from the server.
+ * @param {string} query The GraphQL query to send to the server.
+ * @param {object} [config] Configuration options.
+ * @param {(object|string)} [config.variables={}] The variables to include in the query.
+ * @param {boolean} [config.raw=false] Returns response as text.
+ * @returns {Promise<object|string>} The response from the server.
  */
-const query = async (query, variables) => {
+const query = async (query, config = {}) => {
+	const { variables = {}, raw = false } = config;
 	const res = await req(`https://replit.com/graphql?e=${Math.round(Math.random() * 100)}`, {
 		headers,
 		method: 'POST',
 		body: JSON.stringify({ query, variables }),
 	});
-	return await res.json();
+	return raw ? await res.text() : await res.json();
 }
 
 const emitters = [];
@@ -36,13 +39,15 @@ let counter = 0,
  * This function performs a GraphQL subscription with the given subscription and variables.  
  * @function subscribe
  * @async
- * @param {String} subscription The GraphQL subscription to send to the server.
- * @param {(Object|String)} variables The variables to include in the subscription.
+ * @param {string} subscription The GraphQL subscription to send to the server.
+ * @param {object} [config] Configuration options.
+ * @param {(object|string)} [config.variables={}] The variables to include in the subscription.
  * @returns {EventEmitter}
  * @emits {data} Emitted when the server sends data in response to the subscription.
  * @emits {end} Emitted when the subscription is unsubscribed from or otherwise completed.
  */
-const subscribe = (subscription, variables) => {
+const subscribe = (subscription, config = {}) => {
+	const { variables = {} } = config;
 	if (!ws) {
 		ws = new WebSocket(
 			`wss://replit.com/graphql_subscriptions`,
@@ -97,8 +102,7 @@ const subscribe = (subscription, variables) => {
 /**
  * This function edits the SID used for graphql.
  * @function setSid
- * @param {String} sid The SID used for graphql.
- * @returns {undefined}
+ * @param {string} sid The SID used for graphql.
  */
 const setSid = (sid) => headers.cookie = `connect.sid=${sid}`;
 
