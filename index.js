@@ -2,12 +2,12 @@ const { EventEmitter } = require('events');
 const fetch = require('alive-fetch');
 const WebSocket = require('ws');
 
-
 const headers = {
-	referrer: 'https://replit.com',
+	'user-agent': 'replit',
+	'referrer': 'https://replit.com',
 	'content-type': 'application/json',
 	'x-requested-with': 'XMLHttpRequest',
-	cookie: `connect.sid=${process.env.SID}`,
+	'cookie': `connect.sid=${process.env.SID || ''}`,
 };
 
 /**
