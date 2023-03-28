@@ -1,7 +1,7 @@
 const { EventEmitter } = require('events');
+const fetch = require('alive-fetch');
 const WebSocket = require('ws');
 
-const req = require('./req');
 
 const headers = {
 	referrer: 'https://replit.com',
@@ -22,7 +22,7 @@ const headers = {
  */
 const query = async (query, config = {}) => {
 	const { variables = {}, raw = false } = config;
-	const res = await req(`https://replit.com/graphql?e=${Math.round(Math.random() * 100)}`, {
+	const res = await fetch(`https://replit.com/graphql?e=${Math.round(Math.random() * 100)}`, {
 		headers,
 		method: 'POST',
 		body: JSON.stringify({ query, variables }),
