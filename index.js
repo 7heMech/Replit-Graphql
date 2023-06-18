@@ -27,7 +27,7 @@ const query = async (query, config = {}) => {
 		method: 'POST',
 		body: JSON.stringify({ query, variables }),
 	});
-	return raw ? await res.text() : await res.json();
+	return raw ? res.text() : res.json();
 }
 
 const emitters = [];
