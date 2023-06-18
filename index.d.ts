@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 
-declare module 'replit-storage' {
+declare module 'replit-graphql' {
 	interface GraphQLConfig {
 		variables?: Record<string, any>;
 		raw?: boolean;
