@@ -6,7 +6,7 @@ declare module 'replit-graphql' {
 		raw?: boolean;
 	}
 
-	export function query(query: string, config?: GraphQLConfig): Promise<object>;
+	export function query(query: string, config?: GraphQLConfig): Promise<Record<string, any>>;
 
 	export function subscribe(subscription: string, config?: GraphQLConfig): EventEmitter;
 
