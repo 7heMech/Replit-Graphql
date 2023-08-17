@@ -12,8 +12,8 @@ const replit = require('replit-graphql');
 
 const getUsernameById = `query ($id: Int!) {
 	user(id: $id) {
-    username
-  } 
+		username
+	} 
 }`;
 
 const variables = { id: 1 };
