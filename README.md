@@ -2,7 +2,7 @@
 Replit GraphQL is the most performant, isomorphic package which interacts with the Replit's GraphQL API to send GraphQL queries, mutations and subscriptions.
 
 ## Installation
-Installed it by running this command in the Shell tab in your Repl
+Install it by running this command in the Shell tab of your Repl
 ```sh
 npm install replit-graphql
 ```
@@ -10,9 +10,15 @@ npm install replit-graphql
 ```js
 const replit = require('replit-graphql');
 
-const query = '{user(id:1){username}}';
+const getUsernameById = `query ($id: Int!) {
+	user(id: $id) {
+    username
+  } 
+}`;
 
-replit.query(query).then(console.log);
+const variables = { id: 1 };
+
+replit.query(getUsernameById, { variables }).then(console.log);
 ```
 ## API
 Replit GraphQL exports an object with the following functions:
