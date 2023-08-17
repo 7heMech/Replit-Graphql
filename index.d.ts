@@ -22,8 +22,8 @@ declare module 'replit-graphql' {
 	 * @function query
 	 * @async
 	 * @param {string} query The GraphQL query to send to the server.
-	 * @param {object} [config] Configuration options.
-	 * @param {(object|string)} [config.variables={}] The variables to include in the query.
+	 * @param {object} config Configuration options.
+	 * @param {(object|string)} config.variables={} The variables to include in the query.
 	 * @param {boolean} [config.raw=false] Returns response as text.
 	 * @returns {Promise<object|string>} The response from the server.
 	 */
@@ -35,7 +35,7 @@ declare module 'replit-graphql' {
 	 * @async
 	 * @param {string} subscription The GraphQL subscription to send to the server.
 	 * @param {object} [config] Configuration options.
-	 * @param {(object|string)} [config.variables={}] The variables to include in the subscription.
+	 * @param {(object|string)} config.variables={} The variables to include in the subscription.
 	 * @returns {EventEmitter}
 	 * @emits {data} Emitted when the server sends data in response to the subscription.
 	 * @emits {end} Emitted when the subscription is unsubscribed from or otherwise completed.

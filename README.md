@@ -1,8 +1,8 @@
 # Replit GraphQL Client
-Replit GraphQL is a package that interacts with the Replit's GraphQL API to send GraphQL queries, mutations and subscriptions. It uses a keep-alive connection to make requests faster.
+Replit GraphQL is the most performant, isomorphic package which interacts with the Replit's GraphQL API to send GraphQL queries, mutations and subscriptions.
 
 ## Installation
-To use Replit GraphQL, install it using npm:
+Installed it by running this command in the Shell tab in your Repl
 ```sh
 npm install replit-graphql
 ```
@@ -10,31 +10,34 @@ npm install replit-graphql
 ```js
 const replit = require('replit-graphql');
 
-const query = 'query {userByUsername(username: "7heMech") {id}}';
+const query = '{user(id:1){username}}';
 
-const variables = {};
-
-replit.query(query, { variables }).then(console.log);
+replit.query(query).then(console.log);
 ```
 ## API
 Replit GraphQL exports an object with the following functions:
 
-> `query(query: string, config?: {
-		variables?: object|string,
-		raw?: boolean
-	}) => Promise<object>`
-
+```ts
+function query(query: string, config?: {
+	variables?: object|string,
+	raw?: boolean
+}) => Promise<object|string>
+```
 Performs a GraphQL query with the given `query` and `variables`. Returns a Promise that resolves to the query result.
 
-> `subscribe(query: string, config?: {
+```ts
+function subscribe(query: string, config?: {
 		variables?: object|string
-	}) => EventEmitter`
+	}) => EventEmitter
+```
+Performs a GraphQL subscription with the given query and variables. It returns an `EventEmitter` which has the following methods:
+* `on(eventName: string, callback)`
+* `unsubscribe`
 
-Performs a GraphQL subscription with the given query and variables. It returns an `EventEmitter` object. The returned object also has an `unsubscribe` method.
-
-> `setSid(sid: string) => undefined`
-
-Sets the sid used for queries
+```ts
+function setSid(sid: string) => void
+```
+Sets the sid which is used for queries and subscriptions. If you have an environment variable/secret called SID, that will be used by default.
 
 ## Contributing
 Contributions are welcome! If you find a bug or want to add a new feature, please open an issue or submit a pull request on the [GitHub repository](https://github.com/7hemech/replit-graphql).
