@@ -33,8 +33,8 @@ Performs a GraphQL query with the given `query` and `variables`. Returns a Promi
 
 ```ts
 function subscribe(query: string, config?: {
-		variables?: object|string
-	}) => EventEmitter
+	variables?: object|string
+}) => EventEmitter
 ```
 Performs a GraphQL subscription with the given query and variables. It returns an `EventEmitter` which has the following methods:
 * `on(eventName: string, callback)`
