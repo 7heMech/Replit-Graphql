@@ -21,7 +21,6 @@ if (isNode) {
 
 const headers = {
 	'user-agent': 'replit',
-	'connection': 'keep-alive',
 	'referrer': 'https://replit.com',
 	'content-type': 'application/json',
 	'x-requested-with': 'XMLHttpRequest',
