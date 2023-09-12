@@ -1,5 +1,5 @@
 # Replit GraphQL Client
-Replit GraphQL is the most performant, isomorphic package which interacts with the Replit's GraphQL API to send GraphQL queries, mutations and subscriptions.
+Replit GraphQL is the most performant, package which interacts with the Replit's GraphQL API to send GraphQL queries, mutations and subscriptions.
 
 ## Installation
 Install it by running this command in the Shell tab of your Repl

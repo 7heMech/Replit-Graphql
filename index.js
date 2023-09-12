@@ -1,23 +1,6 @@
-{
-const isNode = Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
-	
-let EventEmitter;
-if (isNode) {
-	const events = require('events');
-	EventEmitter = events.EventEmitter;
-	var WebSocket = require('ws');
-} else {
-	EventEmitter = class extends EventTarget {
-		emit(name, { data }) {
-			const event = new Event(name);
-			event.data = data;
-			this.dispatchEvent(event);
-		}
-		on(eventName, listener) {
-			return this.addEventListener(eventName, listener);
-		}
-	}
-}
+
+const { EventEmitter } = require('events');
+const WebSocket = require('ws');
 
 const headers = {
 	'user-agent': 'replit',
@@ -27,7 +10,7 @@ const headers = {
 };
 
 /**
- * This function performs a GraphQL query with the given query and variables.  
+ * This function performs a GraphQL query with the given query and variables.
  * @function query
  * @async
  * @param {string} query The GraphQL query to send to the server.
@@ -52,7 +35,7 @@ let counter = 0,
 	ws;
 
 /**
- * This function performs a GraphQL subscription with the given subscription and variables.  
+ * This function performs a GraphQL subscription with the given subscription and variables.
  * @function subscribe
  * @async
  * @param {string} subscription The GraphQL subscription to send to the server.
@@ -71,19 +54,18 @@ const subscribe = (subscription, config = {}) => {
 			{ headers },
 		);
 
-		ws.addEventListener('open', () => {
+		ws.on('open', () => {
 			ws.send('{"type":"connection_init","payload":{}}');
-			for (let i = 0; i < msgs.length; i++)
-				ws.send(msgs[i]);
+			for (let i = 0; i < msgs.length; i++) ws.send(msgs[i]);
 			msgs = null;
 		});
 
-		ws.addEventListener('message', ({ data }) => {
+		ws.on('message', (data) => {
 			const { id, type, payload } = JSON.parse(data);
 			const emitter = emitters[id];
 			if (!emitter) return;
 
-			if (type === 'data') emitter.emit('data', { data: payload });
+			if (type === 'data') emitter.emit('data', payload);
 			else if (type === 'complete') emitter.unsubscribe();
 		});
 	}
@@ -121,17 +103,8 @@ const subscribe = (subscription, config = {}) => {
  * @function setSid
  * @param {string} sid The SID used for graphql.
  */
-const setSid = (sid) => {
-	headers.cookie = `connect.sid=${sid}`
-};
-	
-if (isNode && process.env.SID) setSid(process.env.SID);
+function setSid(sid) { headers.cookie = `connect.sid=${sid}` };
 
-const replit = { query, subscribe, setSid };
+if (process.env.SID) setSid(process.env.SID);
 
-if (isNode) {
-	module.exports = replit;
-} else {
-	window.replit = replit;
-}
-}
+module.exports = { query, subscribe, setSid };

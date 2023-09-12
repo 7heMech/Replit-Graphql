@@ -1,6 +1,6 @@
 {
 	"name": "replit-graphql",
-	"version": "3.2.1",
+	"version": "3.2.2",
 	"description": "An easy way to use the replit's graphql API.",
 	"repository": "7hemech/replit-graphql",
 	"author": "7hemech",
@@ -12,6 +12,6 @@
 	],
 	"license": "ISC",
 	"dependencies": {
-		"ws": "^8.12.1"
+		"ws": "^8.14.1"
 	}
 }
